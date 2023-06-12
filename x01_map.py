@@ -38,3 +38,15 @@ xx........
 """
 
 occupied = [[1, 1], [2, 1], [4, 0], [5, 0], [6, 0], [0, 1], [0, 2], [0, 3], [1, 8], [2, 8], [3, 8], [4, 8], [4, 3], [4, 4], [4, 5], [4, 6], [4, 7]]
+
+prnt = ''
+
+for j in range(0,10):
+    for i in range(0,10):
+        pnt='.'
+        for k in occupied:
+            if k[0]==i and k[1]==j:
+                pnt = 'x'
+        prnt = ''.join((prnt,pnt))
+    prnt = ''.join((prnt,'\n'))
+print(prnt)

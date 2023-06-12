@@ -5,17 +5,25 @@ There are 5 boats in battleship. They must occupy coordinates that are horizonta
 The size of the boats are 2, 3, 3, 4 and 5. Create a function that generates a list of the data for your boats.
 '''
 
-def create():
+def create(dir,x,y):
   '''
   You will need to specify what information you need as inputs, but the output should be a list
   Add whatever code you need for each of your different ships to specify what coordinates it
   occupies and/or whether it is vertical/horizontal
   '''
   output = [
-    { "name" : "Tugboat", "size" : 2 },
-    { "name" : "Sumbarine", "size" : 3 },
-    { "name" : "Destroyer", "size" : 3 },
-    { "name" : "Carrier", "size" : 4 },
-    { "name" : "Battelship", "size" : 5 }
+    { "name" : "Tugboat", "size" : 2, "direction" : dir , "starting coordinate" : [x,y] },
+    { "name" : "Sumbarine", "size" : 3, "direction" : dir , "coordinates" : [x,y] },
+    { "name" : "Destroyer", "size" : 3, "direction" : dir , "coordinates" : [x,y] },
+    { "name" : "Carrier", "size" : 4, "direction" : dir , "coordinates" : [x,y] },
+    { "name" : "Battelship", "size" : 5, "direction" : dir , "coordinates" : [x,y] }
     ]
   return output
+
+
+print(create("up",1,2))
+
+'''if __name__ == "__main__":
+  assert create("up",1,2) == [1,2]
+  assert create("A10") == [0,9]
+  assert create("d 4") == [3,3]'''
