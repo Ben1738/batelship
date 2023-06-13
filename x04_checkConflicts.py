@@ -22,7 +22,11 @@ def fullList(ships):
   list of occupied coordinates
   (example: [ [0,2] , [0,3] , [1,4] , [2,4] , [3,4] ])
   '''
-  return None
+  coordsall = []
+  for i in ships:
+    coordsall.append(i['coordinates'])
+
+  return coordsall
 
   
 def isConflict(occupied,boat):
@@ -35,6 +39,14 @@ def isConflict(occupied,boat):
   True if the new boat conflicts with existing data
   False if the new boat does not conflict
   '''
+
+  for i in boat['coordinates']:
+    for j in occupied:
+      if i==j:
+        return True
+      else:
+        return False
+
   
   return None
   

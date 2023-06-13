@@ -20,10 +20,4 @@ def create(dir,x,y):
     ]
   return output
 
-
 print(create("up",1,2))
-
-'''if __name__ == "__main__":
-  assert create("up",1,2) == [1,2]
-  assert create("A10") == [0,9]
-  assert create("d 4") == [3,3]'''

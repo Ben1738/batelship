@@ -4,11 +4,6 @@ Given a string literal convert it to a list that contains the coordinate. Your s
 """
 
 def convert(coordinate):
-  """
-  input: coordinate is a string literal 
-    examples: "B 3" "B3" "b3"
-  return value: list containing 2 integers
-  """
   cord = []
 
   if coordinate[0] == 'A' or coordinate[0] == 'a':
