@@ -10,6 +10,7 @@ c.pack()
 
 evilboat=[]
 goodboat=[]
+spots=[]
 
 def visBoat(occupied):
     bord=[]
@@ -34,6 +35,34 @@ def visBoat(occupied):
                 bord.append(c.create_rectangle(0+j*31,0+k*31,31+j*31,31+k*31,fill='#0000bb'))
             if i=='x':
                 bord.append(c.create_rectangle(0+j*31,0+k*31,31+j*31,31+k*31,fill='#808080'))
+            else:
+                pass
+
+def vilBoat(occupied):
+    global spots
+    bord=[]
+    prnt = ''
+
+    for j in range(0,10):
+        for i in range(0,10):
+            pnt='.'
+            for k in occupied:
+                if k[0]==i and k[1]==j:
+                    pnt = 'x'
+            prnt = ''.join((prnt,pnt))
+        prnt = ''.join((prnt,'\n'))
+    print(prnt)
+
+    pirt = prnt.split('\n')
+    spots = pirt
+
+
+    for k in range(10):
+        for (i,j) in itertools.zip_longest(pirt[k],range(len(pirt[k]))):
+            if i=='.':
+                bord.append(c.create_rectangle(400+j*31,0+k*31,431+j*31,31+k*31,fill='#0000bb'))
+            if i=='x':
+                bord.append(c.create_rectangle(400+j*31,0+k*31,431+j*31,31+k*31,fill='#808080'))
             else:
                 pass
 
@@ -131,6 +160,43 @@ def convert(coordinate,direction):
 
     return cords
 
+def attackLoc(coordinate):
+    cord = []
+
+    if coordinate[0] == 'A' or coordinate[0] == 'a':
+        cord.append(0)
+    if coordinate[0] == 'B' or coordinate[0] == 'b':
+        cord.append(1)
+    if coordinate[0] == 'C' or coordinate[0] == 'c':
+        cord.append(2)
+    if coordinate[0] == 'D' or coordinate[0] == 'd':
+        cord.append(3)
+    if coordinate[0] == 'E' or coordinate[0] == 'e':
+        cord.append(4)
+    if coordinate[0] == 'F' or coordinate[0] == 'f':
+        cord.append(5)
+    if coordinate[0] == 'G' or coordinate[0] == 'g':
+        cord.append(6)
+    if coordinate[0] == 'H' or coordinate[0] == 'h':
+        cord.append(7)
+    if coordinate[0] == 'I' or coordinate[0] == 'i':
+        cord.append(8)
+    if coordinate[0] == 'J' or coordinate[0] == 'j':
+        cord.append(9)
+
+    coordinate = coordinate.replace(' ', '')
+
+    if coordinate[1]=='1':
+        try:
+            if coordinate[2]=='0':
+                cord.append(9)
+        except:
+            cord.append(0)
+    else:
+        cord.append(int(coordinate[1])-1)
+
+    return cord
+
 def enemy():
     global evilboat
     for i in range(5):
@@ -157,6 +223,7 @@ def enemy():
             if check(eneShip,evilboat)==False:
                 break
         evilboat.extend(eneShip)
+        vilBoat([])
 
 def allie():
     global goodboat
@@ -185,63 +252,26 @@ def allie():
         goodboat.extend(allShip)
         visBoat(goodboat)
 
+def kiling():
+    a=0
+    while True:
+        atk=input('attack cord: ')
+        boom=(spots[(attackLoc(atk))[1]])[(attackLoc(atk))[0]]
+        if boom =='x':
+            print('hit')
+            a+=1
+            c.create_rectangle(400+(attackLoc(atk))[0]*31,0+(attackLoc(atk))[1]*31,431+(attackLoc(atk))[0]*31,31+(attackLoc(atk))[1]*31,fill='#bb0000')
+        if boom =='.':
+            print('miss')
+            c.create_rectangle(400+(attackLoc(atk))[0]*31,0+(attackLoc(atk))[1]*31,431+(attackLoc(atk))[0]*31,31+(attackLoc(atk))[1]*31,fill='#ffffff')
+        if a==17:
+            print('you win')
+            break
+
 visBoat([])
+vilBoat([])
 allie()
 enemy()
-'''while True:
-    a=False
-    tugDir = input('Tugboat(2) Direciton: ')
-    tugLoc = input('Tugboat(2) First Coord: ')
-    tugLocCon = convert(tugLoc,tugDir)
-    tugBoat = tugLocCon[: len(tugLocCon) - 3]
-    if check(tugBoat,[])==False:
-        break
-print(str(tugBoat))
-visBoat(tugBoat)
-while True:
-    a=False
-    sumDir = input('Sumbarine(3) Direciton: ')
-    sumLoc = input('Sumbarine(3) First Coord: ')
-    sumLocCon = convert(sumLoc,sumDir)
-    sumBoat = sumLocCon[: len(sumLocCon) - 2]
-    if check(sumBoat,tugBoat)==False:
-        break
-print(str(sumBoat))
-tugBoat.extend(sumBoat)
-visBoat(tugBoat)
-while True:
-    a=False
-    desDir = input('Destroyer(3) Direciton: ')
-    desLoc = input('Destroyer(3) First Coord: ')
-    desLocCon = convert(desLoc,desDir)
-    desBoat = desLocCon[: len(desLocCon) - 2]
-    if check(desBoat,tugBoat)==False:
-        break
-print(str(desBoat))
-tugBoat.extend(desBoat)
-visBoat(tugBoat)
-while True:
-    a=False
-    carDir = input('Carrier(4) Direciton: ')
-    carLoc = input('Carrier(4) First Coord: ')
-    carLocCon = convert(carLoc,carDir)
-    carBoat = carLocCon[: len(carLocCon) - 1]
-    if check(carBoat,tugBoat)==False:
-        break
-print(str(carBoat))
-tugBoat.extend(carBoat)
-visBoat(tugBoat)
-while True:
-    a=False
-    batDir = input('Battleship(4) Direciton: ')
-    batLoc = input('Battleship(4) First Coord: ')
-    batLocCon = convert(batLoc,batDir)
-    batBoat = batLocCon[: len(batLocCon)]
-    if check(batBoat,tugBoat)==False:
-        break
-print(str(batBoat))
-tugBoat.extend(batBoat)
-visBoat(tugBoat)'''
-
+kiling()
 
 w.mainloop()
