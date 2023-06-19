@@ -11,8 +11,21 @@ c.pack()
 evilboat=[]
 goodboat=[]
 spots=[]
+spoots=[]
+
+tugg=[]
+subg=[]
+desg=[]
+carg=[]
+batg=[]
+tugb=[]
+subb=[]
+desb=[]
+carb=[]
+batb=[]
 
 def visBoat(occupied):
+    global spoots
     bord=[]
     prnt = ''
 
@@ -27,6 +40,7 @@ def visBoat(occupied):
     print(prnt)
 
     pirt = prnt.split('\n')
+    spoots=pirt
 
 
     for k in range(10):
@@ -34,7 +48,7 @@ def visBoat(occupied):
             if i=='.':
                 bord.append(c.create_rectangle(0+j*31,0+k*31,31+j*31,31+k*31,fill='#0000bb'))
             if i=='x':
-                bord.append(c.create_rectangle(0+j*31,0+k*31,31+j*31,31+k*31,fill='#808080'))
+                bord.append(c.create_rectangle(0+j*31,0+k*31,31+j*31,31+k*31,fill='#800080'))
             else:
                 pass
 
@@ -62,7 +76,7 @@ def vilBoat(occupied):
             if i=='.':
                 bord.append(c.create_rectangle(400+j*31,0+k*31,431+j*31,31+k*31,fill='#0000bb'))
             if i=='x':
-                bord.append(c.create_rectangle(400+j*31,0+k*31,431+j*31,31+k*31,fill='#808080'))
+                bord.append(c.create_rectangle(400+j*31,0+k*31,431+j*31,31+k*31,fill='#0000bb'))
             else:
                 pass
 
@@ -223,7 +237,7 @@ def enemy():
             if check(eneShip,evilboat)==False:
                 break
         evilboat.extend(eneShip)
-        vilBoat([])
+        vilBoat(evilboat)
 
 def allie():
     global goodboat
@@ -254,16 +268,34 @@ def allie():
 
 def kiling():
     a=0
+    b=0
     while True:
         atk=input('attack cord: ')
+        if cordcheck(atk) == False:
+            continue
         boom=(spots[(attackLoc(atk))[1]])[(attackLoc(atk))[0]]
         if boom =='x':
-            print('hit')
+            print('you hit')
             a+=1
             c.create_rectangle(400+(attackLoc(atk))[0]*31,0+(attackLoc(atk))[1]*31,431+(attackLoc(atk))[0]*31,31+(attackLoc(atk))[1]*31,fill='#bb0000')
         if boom =='.':
-            print('miss')
+            print('you miss')
             c.create_rectangle(400+(attackLoc(atk))[0]*31,0+(attackLoc(atk))[1]*31,431+(attackLoc(atk))[0]*31,31+(attackLoc(atk))[1]*31,fill='#ffffff')
+        
+        randx=random.randint(0,9)
+        randy=random.randint(0,9)
+        bam=(spoots[randy])[randx]
+        if bam =='x':
+            print('enemy hit')
+            b+=1
+            c.create_rectangle(0+randx*31,0+randy*31,31+randx*31,31+randy*31,fill='#bb0000')
+        if bam =='.':
+            print('enemy miss')
+            c.create_rectangle(0+randx*31,0+randy*31,31+randx*31,31+randy*31,fill='#ffffff')
+        
+        if b==17:
+            print('you lose')
+            break
         if a==17:
             print('you win')
             break
