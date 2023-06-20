@@ -18,11 +18,13 @@ subg=[]
 desg=[]
 carg=[]
 batg=[]
+allg = []
 tugb=[]
 subb=[]
 desb=[]
 carb=[]
 batb=[]
+allb=[]
 
 def visBoat(occupied):
     global spoots
@@ -213,6 +215,12 @@ def attackLoc(coordinate):
 
 def enemy():
     global evilboat
+    global tugb
+    global subb
+    global desb
+    global carb
+    global batb
+    global allb
     for i in range(5):
         while True:
             let=['a','b','c','d','e','f','g','h','i','j']
@@ -236,11 +244,29 @@ def enemy():
             eneShip = eneLoc[: len(eneLoc) - j]
             if check(eneShip,evilboat)==False:
                 break
+        if i == 0:
+            tugb.append(eneLoc)
+        if i == 1:
+            subb.append(eneLoc)
+        if i == 2:
+            desb.append(eneLoc)
+        if i == 3:
+            carb.append(eneLoc)
+        if i == 4:
+            batb.append(eneLoc)
+        allb = tugb,subb,desb,carb,batb
+
         evilboat.extend(eneShip)
         vilBoat(evilboat)
 
 def allie():
     global goodboat
+    global tugg
+    global subg
+    global desg
+    global carg
+    global batg
+    global allg
     for i in range(5):
         while True:
             if i == 0:
@@ -263,36 +289,120 @@ def allie():
             allShip = alliLoc[: len(alliLoc) - j]
             if check(allShip,goodboat)==False:
                 break
+        if i == 0:
+            tugg.append(alliLoc)
+        if i == 1:
+            subg.append(alliLoc)
+        if i == 2:
+            desg.append(alliLoc)
+        if i == 3:
+            carg.append(alliLoc)
+        if i == 4:
+            batg.append(alliLoc)
+        allg = tugg,subg,desg,carg,batg
         goodboat.extend(allShip)
         visBoat(goodboat)
 
+def sunk(hit,alls):
+    if hit in alls[0][0]:
+        return 't'
+    if hit in alls[1][0]:
+        return 's'
+    if hit in alls[2][0]:
+        return 'd'
+    if hit in alls[3][0]:
+        return 'c'
+    if hit in alls[4][0]:
+        return 'b'
+
+def sinky(who,tug,sub,des,car,bat):
+    if tug == 2:
+        print(f'{who} tugboat sunk')
+    if sub == 3:
+        print(f'{who} submairne sunk')
+    if des == 3:
+        print(f'{who} destroiyer sunk')
+    if car == 4:
+        print(f'{who} carrier sunk')
+    if bat == 5:
+        print(f'{who} battleship sunk')
+    return
+
+
 def kiling():
+    global allg
+    global allb
+    repeat=[]
     a=0
     b=0
+    tugc=0
+    subc=0
+    desc=0
+    carc=0
+    batc=0
+    tugs=0
+    subs=0
+    dess=0
+    cars=0
+    bats=0
     while True:
         atk=input('attack cord: ')
         if cordcheck(atk) == False:
             continue
-        boom=(spots[(attackLoc(atk))[1]])[(attackLoc(atk))[0]]
+        try:
+            boom=(spots[(attackLoc(atk))[1]])[(attackLoc(atk))[0]]
+        except:
+            continue
         if boom =='x':
             print('you hit')
             a+=1
+            goodhit = [(attackLoc(atk))[0],(attackLoc(atk))[1]]
             c.create_rectangle(400+(attackLoc(atk))[0]*31,0+(attackLoc(atk))[1]*31,431+(attackLoc(atk))[0]*31,31+(attackLoc(atk))[1]*31,fill='#bb0000')
+            if sunk(goodhit,allb) == 't':
+                tugs+=1
+            if sunk(goodhit,allb) == 's':
+                subs+=1
+            if sunk(goodhit,allb) == 'd':
+                dess+=1
+            if sunk(goodhit,allb) == 'c':
+                cars+=1
+            if sunk(goodhit,allb) == 'b':
+                bats+=1
+            sinky('enemy',tugs,subs,dess,cars,bats)
         if boom =='.':
             print('you miss')
             c.create_rectangle(400+(attackLoc(atk))[0]*31,0+(attackLoc(atk))[1]*31,431+(attackLoc(atk))[0]*31,31+(attackLoc(atk))[1]*31,fill='#ffffff')
         
-        randx=random.randint(0,9)
-        randy=random.randint(0,9)
-        bam=(spoots[randy])[randx]
+        while True:
+            randx=random.randint(0,9)
+            randy=random.randint(0,9)
+            bam=(spoots[randy])[randx]
+            if [randx,randy] in repeat:
+                continue
+            repeat.append([randx,randy])
+            break
         if bam =='x':
             print('enemy hit')
             b+=1
+            badhit = [randx,randy]
             c.create_rectangle(0+randx*31,0+randy*31,31+randx*31,31+randy*31,fill='#bb0000')
+            if sunk(badhit,allg) == 't':
+                tugc+=1
+            if sunk(badhit,allg) == 's':
+                subc+=1
+            if sunk(badhit,allg) == 'd':
+                desc+=1
+            if sunk(badhit,allg) == 'c':
+                carc+=1
+            if sunk(badhit,allg) == 'b':
+                batc+=1
+            sinky('your',tugc,subc,desc,carc,batc)
         if bam =='.':
             print('enemy miss')
             c.create_rectangle(0+randx*31,0+randy*31,31+randx*31,31+randy*31,fill='#ffffff')
         
+
+
         if b==17:
             print('you lose')
             break
