@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import *
 import itertools
 import random
 
@@ -7,6 +8,7 @@ w.geometry("925x475")
 w.attributes('-topmost',True)
 c = tk.Canvas(height=475,width=900,bg="#ffdddd")
 c.pack()
+
 
 evilboat=[]
 goodboat=[]
@@ -328,6 +330,10 @@ def sinky(who,tug,sub,des,car,bat):
         print(f'{who} battleship sunk')
     return
 
+def bomb():
+    for i in range(5):
+        photo = PhotoImage(file='explosion-boom.gif', format=f'gif -index {i}')
+        c.create_image(250, 0, image=photo, anchor=NW)
 
 def kiling():
     global allg
@@ -408,6 +414,7 @@ def kiling():
             break
         if a==17:
             print('you win')
+
             break
 
 visBoat([])
